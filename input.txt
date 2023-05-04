@@ -1,8 +1,10 @@
-    Aircrafts
-    (1{A_ID}),A_Manufacturer,A_Type,A_ManfufacturingDate
-    Bags
-    (B_ID),B_Weight,B_PassengerID,B_FlightID
-    Boarding pass
-    1{(BP_ID)},BP_SeatNumber,BP_GateNO,_BP_PassengerID_
-    Duty free
-    (ShopID),Name,Brands,Location,Staff,OperationHours,Products,Pricing
+Aircrafts
+A_ID,1A{_A_Manufacturer_},6A-5{A_Type},2{A_ManfufacturingDate}
+Bags
+(B_ID),15{B_Weight},B_PassengerID,B_FlightID
+Boarding pass
+(BP_ID),BP_SeatNumber,15A{BP_GateNO},2A{_BP_PassengerID_}
+Duty free
+1{(ShopID)},Name,Brands,Location,Staff,4A{OperationHours},6{Products},Pricing,no,no,no,no,no,no,no,no,no,no,no,no,no,no
+Yamerooo
+3A-4-5A{(Yamete)},3{UwU},baka
