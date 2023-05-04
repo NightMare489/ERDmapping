@@ -1,8 +1,10 @@
 Aircrafts
-(1{A_ID}),A_Manufacturer,A_Type,A_ManfufacturingDate
+(A_ID),1{A_Manufacturer},3{A_Type},A_ManfufacturingDate
 Bags
-(B_ID),B_Weight,B_PassengerID,B_FlightID
+(B_ID),B_Weight,B_PassengerID,7{B_FlightID}
 Boarding pass
-1{(BP_ID)},BP_SeatNumber,BP_GateNO,_BP_PassengerID_
+(BP_ID),1{BP_SeatNumber},BP_GateNO,3{_BP_PassengerID_}
 Duty free
 (ShopID),Name,Brands,Location,Staff,OperationHours,Products,Pricing
+UwU
+(ShopID),Name,Brands,Location,7{Staff},OperationHours,Products,Pricing
