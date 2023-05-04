@@ -1,3 +1,4 @@
+from random import randint
 import svgwrite
 import re
 from svgwrite import cm, mm
@@ -79,20 +80,26 @@ def DrawLines():
     for key in Lines:
         Rx1, Ry1, Rw1, Rh1, Rx2, Ry2, Rw2, Rh2 = Lines[key]
 
-        if(abs(Ry1-Ry2) == VerticalDistance/2): 
-            line1 = dwg.line(start=(Rx1+Rw1/2, Ry1+Rh1), end=((Rx1+Rw1/2), Ry1+(Ry2-Ry1)/2), stroke='black', stroke_width=2)           
-            line2 = dwg.line(start=(Rx2+Rw2/2, Ry2), end=(Rx2+Rw2/2, Ry1+(Ry2-Ry1)/2), stroke='black', stroke_width=2)
-            
-            line3 = dwg.line(start=(Rx1+Rw1/2, Ry1+(Ry2-Ry1)/2), end=(Rx2+Rw2/2, Ry1+(Ry2-Ry1)/2), stroke='black', stroke_width=2)
-
-
+        if(abs(Ry1-Ry2) == VerticalDistance/2):
+            rand = randint(-80,80)
+        
+            line1 = dwg.line(start=(Rx1+rand+Rw1/2, Ry1+Rh1), end=((Rx1+rand+Rw1/2), Ry1+rand+(Ry2-Ry1)/2), stroke='black', stroke_width=2)           
+            line2 = dwg.line(start=(Rx2+Rw2/2, Ry2), end=(Rx2+Rw2/2, Ry1+rand+(Ry2-Ry1)/2), stroke='black', stroke_width=2)
+            line3 = dwg.line(start=(Rx1+rand+Rw1/2, Ry1+rand+(Ry2-Ry1)/2), end=(Rx2+Rw2/2, Ry1+rand+(Ry2-Ry1)/2), stroke='black', stroke_width=2)
             dwg.add(line1)
             dwg.add(line2)
             dwg.add(line3)
+        else:
+            rand = 0
+            line1 = dwg.line(start=(Rx1+rand+Rw1/2, Ry1+Rh1), end=((Rx1+rand+Rw1/2), Ry1+rand+(Ry2-Ry1)/4), stroke='black', stroke_width=2)           
+            line2 = dwg.line(start=(Rx2+Rw2/2, Ry2), end=(Rx2+Rw2/2, Ry2-(Ry2-Ry1)/4), stroke='black', stroke_width=2)
 
-
-
-
+            line3 = dwg.line(start=(Rx1+rand+Rw1/2, Ry1+rand+(Ry2-Ry1)/4), end=(50, Ry1+rand+(Ry2-Ry1)/4), stroke='black', stroke_width=2)           
+         
+               
+            
+            dwg.add(line3)
+            dwg.add(line1)
 
 
 
