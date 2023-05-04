@@ -136,6 +136,7 @@ if __name__ == '__main__':
     with open('input.txt', 'r') as f:
         string = f.read()
     input_lines = string.split('\n')
+    print(string)
     for i in range(0, len(input_lines), 2):
         generate_image(input_lines[i] + '\n' + input_lines[i+1])
         height += VerticalDistance
