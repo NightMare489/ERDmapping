@@ -1,0 +1,8 @@
+Aircrafts
+(A_ID),A_Manufacturer,A_Type,A_ManfufacturingDate
+Bags
+(1{B_ID}),B_Weight,B_PassengerID,B_FlightID
+Boarding pass
+(BP_ID),1{BP_SeatNumber},2{BP_GateNO},_BP_PassengerID_
+Duty free
+(ShopID),Name,Brands,Location,Staff,OperationHours,Products,2{Pricing}
