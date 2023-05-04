@@ -5,6 +5,47 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #3e8e41;
+        }
+    </style>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
             background-color: #1a1a1a;
             color: #FFFFFF;
         }
@@ -40,7 +81,7 @@
             font-size: 16px;
         }
 
-        button {
+        button, input[type="submit"] {
             display: block;
             margin: 0 auto;
             padding: 10px 20px;
@@ -50,14 +91,36 @@
             font-size: 16px;
             cursor: pointer;
             border: none;
+
+            /* modern floating neon glow effect */
+            box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+            transition: 0.2s;
+
+            user-select: none;
+
         }
 
-        button:hover {
-            background-color: #3E8E41;
+        button:hover, input[type="submit"] {
+            background-color: #3e8e41;
+            /* animated effect looping  */
+            animation: pulse 1s infinite;
+        }
+
+        /* smoth shrink on click */
+
+        button:active, input[type="submit"] {
+            transform: scale(0.9);
+        }
+
+        .text-center {
+            text-align: center;
         }
 
         .input-group {
             margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
         }
 
         .input-group::after {
@@ -77,6 +140,43 @@
             float: left;
             width: calc(100% - 110px);
         }
+
+        .delete-button {
+            display: inline-block;
+            margin-left: 10px;
+            padding: 5px 10px;
+            border-radius: 5px;
+            background-color: #FF0000;
+            color: #FFFFFF;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+        }
+
+        .delete-button:hover {
+            background-color: #CC0000;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.2);
+            }
+
+            70% {
+                box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -84,22 +184,18 @@
         <h1>ERD Mapping Generator</h1>
 
         <form method="POST" action="/convert">
-            <div class="input-group">
-                <label for="entity">Entity name:</label>
-                <input type="text" id="entity" name="entity">
-            </div>
+            
+            <div class="buttons-container">
 
-            <div class="input-group">
-                <label for="attributes">Attributes (comma-separated):</label>
-                <input type="text" id="attributes" name="attributes">
+                <div class="text-center">
+                    <button type="button" id="add_field" >Add</button>
+                </div>
+                
+                <div class="text-center">
+                    <input type="submit" value="Convert and Save">
+                </div>
             </div>
-
-            <div class="text-center">
-                <button type="button" id="add_field">Add</button>
-            </div>
-
-            <div class="text-center">
-                <input type="submit" value="Convert and Save">
+            <div id="input-group-container">
             </div>
         </form>
     </div>
@@ -107,54 +203,57 @@
     <script>
         var add_field_button = document.getElementById('add_field');
         var form = document.getElementsByTagName('form')[0];
-        var entity_input = document.getElementById('entity');
-        var attributes_input = document.getElementById('attributes');
+        var input_group_container = document.getElementById('input-group-container');
 
         add_field_button.addEventListener('click', function() {
-            var entity_value = entity_input.value.trim();
-            var attributes_value = attributes_input.value.trim();
+            var input_group_new = document.createElement('div');
+            input_group_new.setAttribute('class', 'input-group');
+            input_group_new.style.border = "1px solid #ccc";
 
-            if (!entity_value || !attributes_value) {
-                alert('Please fill in both the entity name and attributes fields.');
-                return;
-            }
+            var label_new = document.createElement('label');
+            label_new.setAttribute('for', 'entity');
+            label_new.innerText = 'Entity name:';
 
             var entity_input_new = document.createElement('input');
             entity_input_new.setAttribute('type', 'text');
             entity_input_new.setAttribute('name', 'entity');
-            entity_input_new.setAttribute('value', entity_value);
+            // make it required
+            entity_input_new.setAttribute('required', 'required');
+
+
+            var label_new2 = document.createElement('label');
+            label_new2.setAttribute('for', 'attributes');
+            label_new2.innerText = 'Attributes (comma-separated):';
+
 
             var attributes_input_new = document.createElement('input');
             attributes_input_new.setAttribute('type', 'text');
             attributes_input_new.setAttribute('name', 'attributes');
-            attributes_input_new.setAttribute('value', attributes_value);
+            // make it required
+            attributes_input_new.setAttribute('required', 'required');
 
-            var input_group_new = document.createElement('div');
-            input_group_new.setAttribute('class', 'input-group');
+
+
+            var delete_button_new = document.createElement('button');
+            delete_button_new.setAttribute('type', 'button');
+            delete_button_new.setAttribute('class', 'delete-button');
+            delete_button_new.innerText = 'Delete';
+            delete_button_new.addEventListener('click', function() {
+                deleteInputGroup(this);
+            });
+
+           input_group_new.appendChild(label_new);
             input_group_new.appendChild(entity_input_new);
+            input_group_new.appendChild(label_new2);
             input_group_new.appendChild(attributes_input_new);
+            input_group_new.appendChild(delete_button_new);
 
-            form.insertBefore(input_group_new, add_field_button.parentElement);
-
-            entity_input.value = '';
-            attributes_input.value = '';
-            entity_input.focus();
+            input_group_container.appendChild(input_group_new);
         });
 
-        // Handle the Enter key to allow the user to keep typing
-        entity_input.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                attributes_input.focus();
-            }
-        });
-
-        attributes_input.addEventListener('keydown', function(event) {
-            if (event.key === 'Enter') {
-                event.preventDefault();
-                add_field_button.click();
-            }
-        });
+        function deleteInputGroup(button) {
+            button.parentElement.remove();
+        }
     </script>
 </body>
 </html>
