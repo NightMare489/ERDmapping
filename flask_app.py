@@ -46,7 +46,7 @@ def convert():
         response = make_response(x.begin(string))
         response.headers['Content-Type'] = 'image/svg+xml'
         response.headers['Content-Disposition'] = 'attachment; filename=example.svg'
-    
+
         return response
     
     except :
