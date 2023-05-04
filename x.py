@@ -49,41 +49,7 @@ def generate_image(input_str):
                     Lines[n] = [RectX,RectY,RectW,RectH,b]
                 else:
                     Lines[n]+=[RectX,RectY,RectW,RectH,b]
-        if(elm:= re.findall(r'{(.*?)}', element)):
-            if(elm[0].startswith('(') and elm[0].endswith(')') or elm[0].startswith('_') and elm[0].endswith('_')):
-                Twidth, Theight = draw.textsize(elm[0][1:-1], font=Font)
-            else:
-                Twidth, Theight = draw.textsize(elm[0], font=Font)
-        else:
-            Twidth, Theight = draw.textsize(element, font=Font)
-        RectX = x
-        RectY = FirstY
-        RectW = max(Twidth + 40, 150)
-        RectH = 50
-
-        num = []
-        if '{' in element and '}' in element:
-            for item in element.split('{'):
-                if('}' in item):
-                    continue
-                for _ in item.split('-'):
-                    num.append(_)
-
-        if num:
-            for n in num:
-                b = False
-                if n[-1] == 'A':
-                    b = True
-                    n = int(n[0:-1])
-                else:
-                    n = int(n)
-                if n not in Lines:
-                    Lines[n] = [RectX,RectY,RectW,RectH,b]
-                else:
-                    Lines[n]+=[RectX,RectY,RectW,RectH,b]
         Underlined = False
-        if elm:
-            element = elm[0]
         if elm:
             element = elm[0]
         if element.startswith('(') and element.endswith(')'):
@@ -118,16 +84,8 @@ def generate_image(input_str):
 def DrawLines():
     for key in Lines:
         Rx1, Ry1, Rw1, Rh1,R1a, Rx2, Ry2, Rw2, Rh2,R2a = Lines[key]
-        Rx1, Ry1, Rw1, Rh1,R1a, Rx2, Ry2, Rw2, Rh2,R2a = Lines[key]
         R1lvl = int(Ry1/(VerticalDistance/2))
         R2lvl = int(Ry2/ (VerticalDistance/2))
-
-        randStart = randint(5,FirstX-5)
-        
-        randR1x = randint(-int(Rw1/4), int(Rw1/4))
-        randR2x = randint(-int(Rw2/4), int(Rw1/4))
-
-        randRy = randint(-int((((VerticalDistance/2)-Rh1)/2)/2), int((((VerticalDistance/2)-Rh1)/2)/2))
 
         randStart = randint(5,FirstX-5)
         
@@ -144,13 +102,6 @@ def DrawLines():
                 (Rx2+randR2x+Rw2/2, Ry2)
             
             ]
-            points = [
-                (Rx1+randR1x+Rw1/2, Ry1+Rh1),
-                (Rx1+randR1x+Rw1/2, randRy+(Ry1+Rh1)+((VerticalDistance/2)-Rh1)/2),
-                (Rx2+randR2x+Rw2/2, randRy+(Ry1+Rh1)+((VerticalDistance/2)-Rh1)/2),
-                (Rx2+randR2x+Rw2/2, Ry2)
-            
-            ]
         else:
             maxX = 0
             for i in range(R1lvl+1, R2lvl):
@@ -158,24 +109,7 @@ def DrawLines():
                     maxX = levels[i-1]
 
             maxX += randint(10, 50)
-            maxX += randint(10, 50)
 
-            points1 = [
-                    (Rx1+randR1x+Rw1/2, Ry1+Rh1),
-                    (Rx1+randR1x+Rw1/2, randRy+(Ry1+Rh1)+((VerticalDistance/2)-Rh1)/2),
-                    (randStart, randRy+(Ry1+Rh1)+((VerticalDistance/2)-Rh1)/2),
-                    (randStart, randRy+(Ry2)-((VerticalDistance/2)-Rh2)/2),
-                    (Rx2+randR2x+Rw2/2, randRy+(Ry2)-((VerticalDistance/2)-Rh2)/2),
-                    (Rx2+randR2x+Rw2/2, Ry2),
-                ]
-            points2 = [
-                    (Rx1+randR1x+Rw1/2, Ry1+Rh1),
-                    (Rx1+randR1x+Rw1/2, randRy+(Ry1+Rh1)+((VerticalDistance/2)-Rh1)/2),
-                    (maxX, randRy+(Ry1+Rh1)+((VerticalDistance/2)-Rh1)/2),
-                    (maxX, randRy+(Ry2)-((VerticalDistance/2)-Rh2)/2),
-                    (Rx2+randR2x+Rw2/2, randRy+(Ry2)-((VerticalDistance/2)-Rh2)/2),
-                    (Rx2+randR2x+Rw2/2, Ry2),   
-                ]
             points1 = [
                     (Rx1+randR1x+Rw1/2, Ry1+Rh1),
                     (Rx1+randR1x+Rw1/2, randRy+(Ry1+Rh1)+((VerticalDistance/2)-Rh1)/2),
@@ -200,16 +134,7 @@ def DrawLines():
 
             for i in range(1,len(points2)):
                 distance2 += dist(points2[i],points2[i-1])
-            distance1 =0
-            distance2 =0
-            for i in range(1,len(points1)):
-                distance1 += dist(points1[i],points1[i-1])
 
-            for i in range(1,len(points2)):
-                distance2 += dist(points2[i],points2[i-1])
-
-            if distance1 < distance2:
-                points = points1
             if distance1 < distance2:
                 points = points1
             else:
@@ -230,17 +155,6 @@ def DrawLines():
             polyline['marker-start'] = marker2.get_funciri()
         dwg.add(polyline)
 
-        if R2a:
-            marker = dwg.marker(insert=(9.5, 5), size=(15, 15), orient='auto')
-            marker.add(arrow)
-            dwg.defs.add(marker)
-            polyline['marker-end'] = marker.get_funciri()
-        if R1a:
-            marker2 = dwg.marker(insert=(9.5, 5), size=(15, 15), orient='-90')
-            marker2.add(arrow)
-            dwg.defs.add(marker2)
-            polyline['marker-start'] = marker2.get_funciri()
-        dwg.add(polyline)
 
 
 # if __name__ == '__main__':
