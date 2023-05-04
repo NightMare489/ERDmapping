@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ERD Mapping Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #FFFFFF;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #2b2b2b;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border: none;
+            background-color: #3c3c3c;
+            color: #FFFFFF;
+            font-size: 16px;
+        }
+
+        button {
+            display: block;
+            margin: 0 auto;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: #FFFFFF;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+        }
+
+        button:hover {
+            background-color: #3E8E41;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .input-group label {
+            float: left;
+            width: 100px;
+            margin-right: 10px;
+            line-height: 32px;
+        }
+
+        .input-group input[type="text"] {
+            float: left;
+            width: calc(100% - 110px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ERD Mapping Generator</h1>
+
+        <form method="POST" action="/convert">
+            <div class="input-group">
+                <label for="entity">Entity name:</label>
+                <input type="text" id="entity" name="entity">
+            </div>
+
+            <div class="input-group">
+                <label for="attributes">Attributes (comma-separated):</label>
+                <input type="text" id="attributes" name="attributes">
+            </div>
+
+            <div class="text-center">
+                <button type="button" id="add_field">Add</button>
+            </div>
+
+            <div class="text-center">
+                <input type="submit" value="Convert and Save">
+            </div>
+        </form>
+    </div>
+
+    <script>
+        var add_field_button = document.getElementById('add_field');
+        var form = document.getElementsByTagName('form')[0];
+        var entity_input = document.getElementById('entity');
+        var attributes_input = document.getElementById('attributes');
+
+        add_field_button.addEventListener('click', function() {
+            var entity_value = entity_input.value.trim();
+            var attributes_value = attributes_input.value.trim();
+
+            if (!entity_value || !attributes_value) {
+                alert('Please fill in both the entity name and attributes fields.');
+                return;
+            }
+
+            var entity_input_new = document.createElement('input');
+            entity_input_new.setAttribute('type', 'text');
+            entity_input_new.setAttribute('name', 'entity');
+            entity_input_new.setAttribute('value', entity_value);
+
+            var attributes_input_new = document.createElement('input');
+            attributes_input_new.setAttribute('type', 'text');
+            attributes_input_new.setAttribute('name', 'attributes');
+            attributes_input_new.setAttribute('value', attributes_value);
+
+            var input_group_new = document.createElement('div');
+            input_group_new.setAttribute('class', 'input-group');
+            input_group_new.appendChild(entity_input_new);
+            input_group_new.appendChild(attributes_input_new);
+
+            form.insertBefore(input_group_new, add_field_button.parentElement);
+
+            entity_input.value = '';
+            attributes_input.value = '';
+            entity_input.focus();
+        });
+
+        // Handle the Enter key to allow the user to keep typing
+        entity_input.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                attributes_input.focus();
+            }
+        });
+
+        attributes_input.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                add_field_button.click();
+            }
+        });
+    </script>
+</body>
+</html>

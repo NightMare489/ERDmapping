@@ -1,0 +1,4 @@
+flask
+svgwrite
+Pillow
+pydot
