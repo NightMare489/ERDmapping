@@ -123,6 +123,7 @@
         }
 
         .text-center {
+            
             text-align: center;
         }
 
@@ -265,6 +266,13 @@
 
                 <div class="text-center">
                     <button type="button" id="add_field" >Add</button>
+                
+                </div>
+                <div class="text-center">
+                    <button type="button" id="load_field" >Load</button>
+                </div>
+                <div class="text-center">
+                    <button type="button" id="save_field" >Save</button>
                 </div>
                 
                 <div class="text-center">
@@ -278,6 +286,9 @@
 
     <script>
         var add_field_button = document.getElementById('add_field');
+        var load_field_button = document.getElementById('load_field');
+        var save_field_button = document.getElementById('save_field');
+
         var form = document.getElementsByTagName('form')[0];
         var input_group_container = document.getElementById('input-group-container');
 
@@ -330,6 +341,100 @@
         function deleteInputGroup(button) {
             button.parentElement.remove();
         }
+
+        save_field_button.addEventListener('click', function() {
+            // Select all input fields within input_group_container
+            var inputs = input_group_container.querySelectorAll('input');
+
+            var inputString = '';
+            for(var i = 0; i < inputs.length; i++) {
+                inputString += inputs[i].value;
+                if(i != inputs.length - 1) {
+                    inputString += '\n';
+                }
+            }
+
+            var blob = new Blob([inputString], {type: 'text/plain'});
+            var url = URL.createObjectURL(blob);
+            var link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'download.erdmapping');
+            link.click();
+        });
+
+        load_field_button.addEventListener('click', function() {
+        var fileInput = document.createElement('input');
+        fileInput.setAttribute('type', 'file');
+        fileInput.setAttribute('accept', '.erdmapping');
+        fileInput.addEventListener('change', function() {
+        var reader = new FileReader();
+        reader.onload = function() {
+        var inputString = reader.result;
+        var inputValues = inputString.split('\n');
+        var deleted_buttons = document.querySelectorAll('.delete-button');
+        for(var i = 0; i < deleted_buttons.length; i++) {
+            deleted_buttons[i].click();
+        }
+        for (var i = 0; i < inputValues.length; i += 2) {
+        var inputGroup = document.createElement('div');
+        inputGroup.setAttribute('class', 'input-group');
+        inputGroup.style.border = '1px solid #ccc';
+
+        var entityLabel = document.createElement('label');
+        entityLabel.setAttribute('for', 'entity');
+        entityLabel.innerText = 'Entity name:';
+        var entityInput = document.createElement('input');
+        entityInput.setAttribute('type', 'text');
+        entityInput.setAttribute('name', 'entity');
+        entityInput.setAttribute('value', inputValues[i]);
+        entityInput.setAttribute('required', 'required');
+
+
+        var attributesLabel = document.createElement('label');
+        attributesLabel.setAttribute('for', 'attributes');
+        attributesLabel.innerText = 'Attributes (comma-separated):';
+        var attributesInput = document.createElement('input');
+        attributesInput.setAttribute('type', 'text');
+        attributesInput.setAttribute('name', 'attributes');
+        attributesInput.setAttribute('value', inputValues[i + 1]);
+        attributesInput.setAttribute('required', 'required');
+
+
+        var deleteButton = document.createElement('button');
+        deleteButton.setAttribute('type', 'button');
+        deleteButton.setAttribute('class', 'delete-button');
+        deleteButton.innerText = 'Delete';
+        deleteButton.addEventListener('click', function() {
+          deleteInputGroup(this);
+        });
+
+
+        inputGroup.appendChild(entityLabel);
+        inputGroup.appendChild(entityInput);
+        inputGroup.appendChild(attributesLabel);
+        inputGroup.appendChild(attributesInput);
+        inputGroup.appendChild(deleteButton);
+
+
+        input_group_container.appendChild(inputGroup);
+      }
+    };
+
+
+    reader.readAsText(fileInput.files[0]);
+  });
+
+
+  fileInput.click();
+});
+
+
+
+
+
+
+
+
     </script>
 </body>
 </html>
