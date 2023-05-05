@@ -51,7 +51,8 @@ def convert():
         return response
     
     except :
-        return "There is a missing arrow destination/source, please go back double check that all matches"
+        string = string.replace('\n','<br>')
+        return """There is a missing arrow destination/source, please go back double check all arrows<br><br><br>This is your code copy it:<br><br><br>"""+string
 
 
 
