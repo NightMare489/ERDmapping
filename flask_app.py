@@ -48,10 +48,10 @@ def convert():
         response.headers['Content-Type'] = 'image/svg+xml'
         response.headers['Content-Disposition'] = 'attachment; filename=example.svg'
 
-    return response
+        return response
     
-        except :
-            return "There is a missing arrow destination/source, please go back double check that all matches"
+    except :
+        return "There is a missing arrow destination/source, please go back double check that all matches"
 
 
 
