@@ -3,6 +3,7 @@ from math import dist
 import svgwrite
 import re
 from svgwrite import cm, mm
+from datetime import datetime
 from PIL import Image, ImageDraw, ImageFont
 
 
@@ -187,7 +188,10 @@ def begin(string):
     FirstX = 100
     VerticalDistance = 350
 
-    dwg = svgwrite.Drawing('output2.svg', size=(width, height), profile='full')
+    name = str(datetime.now()) + ".svg"
+    name = name.replace(":", "")
+    
+    dwg = svgwrite.Drawing(name, size=(width, height), profile='full')
     img = Image.new('RGB', (width, height), color='white')
     draw = ImageDraw.Draw(img)
 
@@ -202,6 +206,6 @@ def begin(string):
         height += VerticalDistance
         dwg['height'] = (height) * mm
     DrawLines()
-    return dwg.tostring()
+    return dwg
 
     # dwg.save()

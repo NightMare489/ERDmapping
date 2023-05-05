@@ -40,17 +40,18 @@ def convert():
             string += str(attributes)
 
 
-    print(string)
+    # print(string)
     try:
-        
-        response = make_response(x.begin(string))
+        dwg = x.begin(string)
+        dwg.save()
+        response = make_response(dwg.tostring())
         response.headers['Content-Type'] = 'image/svg+xml'
         response.headers['Content-Disposition'] = 'attachment; filename=example.svg'
+
+    return response
     
-        return response
-    
-    except :
-         return "There is a missing arrow destination/source, please go back double check that all matches"
+        except :
+            return "There is a missing arrow destination/source, please go back double check that all matches"
 
 
 
