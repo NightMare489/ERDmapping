@@ -59,7 +59,8 @@
         font-family: Arial, sans-serif;
         background-color: #1a1a1a;
         color: #ffffff;
-        overflow: hidden;
+        overflow-x: hidden;
+        overflow-y: auto;
       }
 
       .container {
@@ -246,6 +247,8 @@
 
       @media screen and (min-width: 650px) {
         .buttons-container-side {
+          position: fixed;
+
           background-color: #2b2b2b;
           padding: 10ch 0 10ch 10ch;
           border-radius: 5ch 0 0 5ch;
@@ -254,7 +257,6 @@
           display: flex;
           flex-direction: column;
           align-items: flex-end;
-          position: absolute;
           top: 50%;
           right: 0;
           transform: translateY(-50%);
@@ -279,7 +281,7 @@
       }
 
       .help_sign {
-        position: absolute;
+        position: fixed;
         bottom: 5%;
         left: 2%;
         padding: 10px;
