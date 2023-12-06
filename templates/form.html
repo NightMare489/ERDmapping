@@ -110,11 +110,11 @@
         animation: pulse 1s infinite;
       }
 
-      #add_field {
+      .dripple {
         animation: pulse 1s infinite;
       }
 
-      #add_field:hover {
+      .dripple:hover {
         /* remove animation */
         animation: none;
       }
@@ -255,7 +255,7 @@
       <form method="POST" action="/convert">
         <div class="buttons-container">
           <div class="text-center">
-            <button type="button" id="add_field">Add</button>
+            <button type="button" class="dripple" id="add_field">Add</button>
           </div>
           <div class="text-center">
             <button type="button" id="load_field">Load</button>
@@ -407,6 +407,132 @@
 
         fileInput.click();
       });
+
+      window.addEventListener("dragover", (e) => {
+        e.preventDefault();
+      });
+
+      window.addEventListener("drop", (e) => {
+        e.preventDefault();
+
+        // Access the dropped files
+        var file = e.dataTransfer.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function (event) {
+          console.log(event);
+          var inputString = event.target.result;
+          var inputValues = inputString.split("\n");
+          var deleted_buttons = document.querySelectorAll(".delete-button");
+          for (var i = 0; i < deleted_buttons.length; i++) {
+            deleted_buttons[i].click();
+          }
+          for (var i = 0; i < inputValues.length; i += 2) {
+            var inputGroup = document.createElement("div");
+            inputGroup.setAttribute("class", "input-group");
+            inputGroup.style.border = "1px solid #ccc";
+
+            var entityLabel = document.createElement("label");
+            entityLabel.setAttribute("for", "entity");
+            entityLabel.innerText = "Entity name:";
+            var entityInput = document.createElement("input");
+            entityInput.setAttribute("type", "text");
+            entityInput.setAttribute("name", "entity");
+            entityInput.setAttribute("value", inputValues[i]);
+            entityInput.setAttribute("required", "required");
+
+            var attributesLabel = document.createElement("label");
+            attributesLabel.setAttribute("for", "attributes");
+            attributesLabel.innerText = "Attributes (comma-separated):";
+            var attributesInput = document.createElement("input");
+            attributesInput.setAttribute("type", "text");
+            attributesInput.setAttribute("name", "attributes");
+            attributesInput.setAttribute("value", inputValues[i + 1]);
+            attributesInput.setAttribute("required", "required");
+
+            var deleteButton = document.createElement("button");
+            deleteButton.setAttribute("type", "button");
+            deleteButton.setAttribute("class", "delete-button");
+            deleteButton.innerText = "Delete";
+            deleteButton.addEventListener("click", function () {
+              deleteInputGroup(this);
+            });
+
+            inputGroup.appendChild(entityLabel);
+            inputGroup.appendChild(entityInput);
+            inputGroup.appendChild(attributesLabel);
+            inputGroup.appendChild(attributesInput);
+            inputGroup.appendChild(deleteButton);
+
+            input_group_container.appendChild(inputGroup);
+          }
+        };
+
+        // onyl if the fle extination is .erdmapping
+        if (file.name.split(".").pop().toLowerCase() == "erdmapping".toLocaleLowerCase() ||
+        file.name.split(".").pop().toLowerCase() == "txt".toLocaleLowerCase() 
+        ) {
+          reader.readAsText(file);
+        } else {
+            alert("Format not supported");
+        }
+    });
+
+      //   function drop(e) {
+      //     e.stopPropagation();
+      //     e.preventDefault();
+      //     e.dataTransfer.dropEffect = "copy";
+      //     console.log("dropping");
+      //     var file = e.dataTransfer.files[0];
+      //     var reader = new FileReader();
+      //     reader.onload = function (event) {
+      //       var inputString = event.target.result;
+      //       var inputValues = inputString.split("\n");
+      //       var deleted_buttons = document.querySelectorAll(".delete-button");
+      //       for (var i = 0; i < deleted_buttons.length; i++) {
+      //         deleted_buttons[i].click();
+      //       }
+      //       for (var i = 0; i < inputValues.length; i += 2) {
+      //         var inputGroup = document.createElement("div");
+      //         inputGroup.setAttribute("class", "input-group");
+      //         inputGroup.style.border = "1px solid #ccc";
+
+      //         var entityLabel = document.createElement("label");
+      //         entityLabel.setAttribute("for", "entity");
+      //         entityLabel.innerText = "Entity name:";
+      //         var entityInput = document.createElement("input");
+      //         entityInput.setAttribute("type", "text");
+      //         entityInput.setAttribute("name", "entity");
+      //         entityInput.setAttribute("value", inputValues[i]);
+      //         entityInput.setAttribute("required", "required");
+
+      //         var attributesLabel = document.createElement("label");
+      //         attributesLabel.setAttribute("for", "attributes");
+      //         attributesLabel.innerText = "Attributes (comma-separated):";
+      //         var attributesInput = document.createElement("input");
+      //         attributesInput.setAttribute("type", "text");
+      //         attributesInput.setAttribute("name", "attributes");
+      //         attributesInput.setAttribute("value", inputValues[i + 1]);
+      //         attributesInput.setAttribute("required", "required");
+
+      //         var deleteButton = document.createElement("button");
+      //         deleteButton.setAttribute("type", "button");
+      //         deleteButton.setAttribute("class", "delete-button");
+      //         deleteButton.innerText = "Delete";
+      //         deleteButton.addEventListener("click", function () {
+      //           deleteInputGroup(this);
+      //         });
+
+      //         inputGroup.appendChild(entityLabel);
+      //         inputGroup.appendChild(entityInput);
+      //         inputGroup.appendChild(attributesLabel);
+      //         inputGroup.appendChild(attributesInput);
+      //         inputGroup.appendChild(deleteButton);
+
+      //         input_group_container.appendChild(inputGroup);
+      //       }
+      //     };
+      //   }
     </script>
   </body>
 </html>
