@@ -50,9 +50,10 @@ def convert():
 
         return response
     
-    except :
-        string = string.replace('\n','<br>')
-        return """There is a missing arrow destination/source, please go back double check all arrows<br><br><br>This is your code copy it:<br><br><br>"""+string
+    except  :
+        string = string.replace('\n','\\n')
+        return render_template('error.html',error=string)
+        # return """There is a missing arrow destination/source, please go back double check all arrows<br><br><br>This is your code copy it:<br><br><br>"""+string
 
 
 

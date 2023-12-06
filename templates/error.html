@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ERD Mapping Generator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      h1 {
+        font-size: 24px;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      input[type="text"] {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        width: 100%;
+        box-sizing: border-box;
+        margin-bottom: 20px;
+      }
+
+      input[type="submit"] {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #3e8e41;
+      }
+    </style>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #1a1a1a;
+        color: #ffffff;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #2b2b2b;
+        border-radius: 10px;
+        box-shadow: 0 0 5px 3px rgba(0, 66, 25, 0.8);
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: bold;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        border: none;
+        background-color: #3c3c3c;
+        color: #ffffff;
+        font-size: 16px;
+      }
+
+      button,
+      input[type="submit"] {
+        display: block;
+        margin: 0 auto;
+        padding: 10px 20px;
+        border-radius: 5px;
+        background-color: #4caf50;
+        color: #ffffff;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+
+        /* modern floating neon glow effect */
+        box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+        transition: 0.2s;
+
+        user-select: none;
+      }
+
+      button:hover,
+      input[type="submit"]:hover {
+        background-color: #3e8e41;
+        /* animated effect looping  */
+        animation: pulse 1s infinite;
+      }
+
+      #add_field {
+        animation: pulse 1s infinite;
+      }
+
+      #add_field:hover {
+        /* remove animation */
+        animation: none;
+      }
+      /* smoth shrink on click */
+
+      button:active,
+      input[type="submit"] {
+        transform: scale(0.9);
+      }
+
+      .text-center {
+        text-align: center;
+      }
+
+      .input-group {
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
+      .input-group::after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+
+      .input-group label {
+        float: left;
+        width: 100px;
+        margin-right: 10px;
+        line-height: 32px;
+      }
+
+      .input-group input[type="text"] {
+        float: left;
+        width: calc(100% - 110px);
+      }
+
+      .delete-button {
+        display: inline-block;
+        margin-left: 10px;
+        padding: 5px 10px;
+        border-radius: 5px;
+        background-color: #ff0000;
+        color: #ffffff;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+      }
+
+      .delete-button:hover {
+        background-color: #cc0000;
+      }
+
+      .buttons-container {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5);
+        }
+
+        70% {
+          box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+        }
+
+        100% {
+          box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+        }
+      }
+
+      .names {
+        display: flex;
+        flex-direction: column;
+
+        align-items: center;
+
+        padding: 10px;
+        background-color: #2b2b2b;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        color: #ffffff;
+
+        user-select: none;
+
+        margin-bottom: 1rem;
+      }
+
+      .names ul {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+
+        justify-content: space-around;
+        align-items: center;
+
+        flex-wrap: wrap;
+
+        list-style: none;
+        padding: 0;
+        margin-top: 0.5rem;
+      }
+      .names ul li {
+        transition: 0.3s;
+        margin: 0 1rem;
+        padding: 0;
+        font-size: 1.5rem;
+        font-weight: bold;
+        background-color: transparent;
+        cursor: pointer;
+      }
+      .names ul li:hover {
+        color: #4caf50;
+        /* modern shadow styling with animation */
+        box-shadow: 0px 5px 20px 0px rgba(255, 255, 255, 0.2);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="names">
+      Made with ❤️ by
+      <ul>
+        <li>🧑‍💻 Yaser Shaban</li>
+        <li>🖥️ Abdo Tolba</li>
+        <li>🧑‍🏫 Omar Farouk</li>
+        <li>✨ Yousef Alaa</li>
+        <li>🤓 Amr Ashraf</li>
+        <li>🧑‍💻 Amr Elbana</li>
+      </ul>
+    </div>
+
+    <div class="container">
+      You have broken the law! 🚨
+
+      <br />
+      Please check your arrwos and try again. Make sure that you have followed
+      the syntax rules. you can download your previous worthless effort from
+
+      <button id="download" onclick="download()">Here</button>
+
+      <!-- {{error}} -->
+    </div>
+
+    <script>
+      function download() {
+        var error = "{{error}}";
+
+        var blob = new Blob([error], { type: "text/plain" });
+        var url = URL.createObjectURL(blob);
+        var link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", "download.erdmapping");
+        link.click();
+      }
+    </script>
+  </body>
+</html>

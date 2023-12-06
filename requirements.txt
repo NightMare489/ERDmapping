@@ -1,4 +1,4 @@
-flask
+"flask==2.1.2"
 svgwrite
-Pillow
+"Pillow==9.0.0"
 pydot
