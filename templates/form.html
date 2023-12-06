@@ -2,10 +2,18 @@
 <html>
   <head>
     <title>ERD Mapping Generator</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <!-- faveicon -->
     <link rel="icon" type="image/x-icon" href="favicon.png" />
 
     <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
       body {
         font-family: Arial, sans-serif;
       }
@@ -51,6 +59,7 @@
         font-family: Arial, sans-serif;
         background-color: #1a1a1a;
         color: #ffffff;
+        overflow: hidden;
       }
 
       .container {
@@ -87,7 +96,6 @@
       button,
       input[type="submit"] {
         display: block;
-        margin: 0 auto;
         padding: 10px 20px;
         border-radius: 5px;
         background-color: #4caf50;
@@ -235,6 +243,96 @@
         /* modern shadow styling with animation */
         box-shadow: 0px 5px 20px 0px rgba(255, 255, 255, 0.2);
       }
+
+      @media screen and (min-width: 650px) {
+        .buttons-container-side {
+          background-color: #2b2b2b;
+          padding: 10ch 0 10ch 10ch;
+          border-radius: 5ch 0 0 5ch;
+
+          box-shadow: 0 0 5px 3px rgba(0, 66, 25, 0.8);
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          position: absolute;
+          top: 50%;
+          right: 0;
+          transform: translateY(-50%);
+
+          gap: 5ch;
+          & .text-center {
+            width: 200%;
+            display: flex;
+            justify-content: flex-end;
+          }
+          & button,
+          & input[type="submit"] {
+            border-radius: 5ch 0 0 5ch;
+            width: 70%;
+            text-align: center;
+          }
+          & input[type="submit"] {
+            transform: translateX(20%);
+            width: 100%;
+          }
+        }
+      }
+
+      .help_sign {
+        position: absolute;
+        bottom: 5%;
+        left: 2%;
+        padding: 10px;
+        width: 2ch;
+        height: 2ch;
+        background-color: #2b2b2b;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        font-size: 3ch;
+        color: #ffffff;
+        text-align: center;
+
+        & a {
+          text-decoration: none;
+        }
+        & a:visited {
+          color: #ffffff;
+        }
+
+        & a:hover {
+          color: #4caf50;
+        }
+
+        & a:active {
+          color: #4caf50;
+        }
+      }
+
+      .help_sign::after {
+        content: "Click for more help on how to use";
+
+        opacity: 0;
+        visibility: hidden;
+        position: absolute;
+        top: 0;
+        left: 110%;
+        width: 300%;
+        height: 100%;
+        background-color: #2b2b2b;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        font-size: 1ch;
+        color: #ffffff;
+        text-align: center;
+        padding: 10px;
+
+        transition: all 0.3s 0.5s ease-in-out;
+      }
+
+      .help_sign:hover::after {
+        opacity: 1;
+        visibility: visible;
+      }
     </style>
   </head>
   <body>
@@ -253,7 +351,7 @@
       <h1>ERD Mapping Generator</h1>
 
       <form method="POST" action="/convert">
-        <div class="buttons-container">
+        <div class="buttons-container buttons-container-side">
           <div class="text-center">
             <button type="button" class="dripple" id="add_field">Add</button>
           </div>
@@ -268,10 +366,31 @@
             <input type="submit" value="Download" />
           </div>
         </div>
+        <!-- <div class="buttons-container">
+          <div class="text-center">
+            <button type="button" class="dripple" id="add_field">Add</button>
+          </div>
+          <div class="text-center">
+            <button type="button" id="load_field">Load</button>
+          </div>
+          <div class="text-center">
+            <button type="button" id="save_field">Save</button>
+          </div>
+
+          <div class="text-center">
+            <input type="submit" value="Download" />
+          </div>
+        </div> -->
         <div id="input-group-container"></div>
       </form>
     </div>
-
+    <span class="help_sign">
+      <a
+        target="_blank"
+        href="https://drive.google.com/drive/u/5/folders/1jx2cbzkR23fTScqvBtzkB7KVc0lRtcLt"
+        >?</a
+      >
+    </span>
     <script>
       var add_field_button = document.getElementById("add_field");
       var load_field_button = document.getElementById("load_field");
@@ -469,14 +588,16 @@
         };
 
         // onyl if the fle extination is .erdmapping
-        if (file.name.split(".").pop().toLowerCase() == "erdmapping".toLocaleLowerCase() ||
-        file.name.split(".").pop().toLowerCase() == "txt".toLocaleLowerCase() 
+        if (
+          file.name.split(".").pop().toLowerCase() ==
+            "erdmapping".toLocaleLowerCase() ||
+          file.name.split(".").pop().toLowerCase() == "txt".toLocaleLowerCase()
         ) {
           reader.readAsText(file);
         } else {
-            alert("Format not supported");
+          alert("Format not supported");
         }
-    });
+      });
 
       //   function drop(e) {
       //     e.stopPropagation();
