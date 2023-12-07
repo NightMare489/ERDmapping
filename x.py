@@ -204,7 +204,12 @@ def begin(string):
         generate_image(input_lines[i] + '\n' + input_lines[i+1])
 
         height += VerticalDistance
-        dwg['height'] = (height) * mm
+    
+    maxWidth = max(levels)
+
+    dwg['height'] = (height)
+    dwg['width'] = (maxWidth)+350
+
     DrawLines()
     return dwg
 
