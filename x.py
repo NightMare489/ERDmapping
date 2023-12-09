@@ -84,6 +84,8 @@ def generate_image(input_str):
 
 def DrawLines():
     for key in Lines:
+        if(len(Lines[key]) != 10):
+            raise Exception(f"Arrow {key} is found {len(Lines[key])//5} times, please check your input file and make sure each arrow is found twice (source and destination).")
         Rx1, Ry1, Rw1, Rh1,R1a, Rx2, Ry2, Rw2, Rh2,R2a = Lines[key]
         R1lvl = int(Ry1/(VerticalDistance/2))
         R2lvl = int(Ry2/ (VerticalDistance/2))

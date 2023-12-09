@@ -253,9 +253,14 @@
       You have broken the law! 🚨
 
       <br />
-      Please check your arrwos and try again. Make sure that you have followed
-      the syntax rules. you can download your previous worthless effort from the button below.
 
+      {% if e == 'null' %}
+      Please check your arrwos and try again. Make sure that you have followed
+      the syntax rules. 
+      {% else %}
+      {{e}} 
+      {% endif %}
+      you can download your previous worthless effort from the button below.
       <button id="download" onclick="download()" class="dripple">Here</button>
 
       <!-- {{error}} -->

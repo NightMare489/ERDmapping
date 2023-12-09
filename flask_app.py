@@ -50,9 +50,12 @@ def convert():
 
         return response
     
-    except  :
+    except Exception as e :
         string = string.replace('\n','\\n')
-        return render_template('error.html',error=string)
+        if("Arrow" in e.args[0]):
+            return render_template('error.html',error=string , e=e)
+        else:
+            return render_template('error.html',error=string,e='null')
         # return """There is a missing arrow destination/source, please go back double check all arrows<br><br><br>This is your code copy it:<br><br><br>"""+string
 
 
